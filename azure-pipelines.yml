@@ -38,9 +38,12 @@ steps:
      useLegacyPattern: false
      enableTelemetry: true
     
-- script: pytest test_snowflake_connector.py 
-  displayName: "pytest"
-
+- script: pytest test_snowflake_connector.py --doctest-modules --junitxml=junit/test-results.xml
+  - task: PublishTestResults@2
+    displayName: Publish Test Results **/test-results.xml
+    inputs:
+      testResultsFiles: '**/test-results.xml'
+ 
 - script: python app_sp.py 
   
 - task: PublishPipelineArtifact@1
