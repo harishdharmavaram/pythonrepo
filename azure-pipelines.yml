@@ -5,6 +5,10 @@
 # https://aka.ms/yaml
 trigger:
 - dev
+pr: 
+     branches:
+      include:
+       - '*'  
 pool:
   vmImage: ubuntu-latest
 strategy:
@@ -39,8 +43,6 @@ steps:
     
 - script: pytest test_snowflake_connector.py 
   displayName: "pytest"
- 
-- script: curl  -X POST  -H  application/vnd.github.v3+json" -u harishdharmavaram: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 https://api.github.com/repos/pythonrepo/statuses/{commit-sha} -d '{"state":"success"}' `"'
 
 - script: python app_sp.py 
   
