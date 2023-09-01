@@ -1,0 +1,10 @@
+{
+  "account": "#{account}#",
+  "user": "#{user}#",
+  "password":"#{password}#",
+  "role": "#{role}#",
+  "warehouse": "#{warehouse}#",
+  "database": "#{database}#",
+  "schema": "#{schema}#",
+  "stage": "#{stage}#"
+}
