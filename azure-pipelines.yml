@@ -39,7 +39,7 @@ steps:
      enableTelemetry: true
     
 - task:  
-    displayName: pytest
+    displayName: 'pytest'
     inputs:
       script: pip install pytest && pytest test_snowflake_connector.py --doctest-modules --junitxml=junit/test-results.xml
 - task: PublishTestResults@2
