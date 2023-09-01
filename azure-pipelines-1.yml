@@ -36,5 +36,3 @@ steps:
     
 - script: pytest test_snowflake_connector.py 
   displayName: "pytest"
-
-- script: python app_sp.py 
