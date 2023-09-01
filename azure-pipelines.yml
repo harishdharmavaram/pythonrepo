@@ -5,10 +5,7 @@
 # https://aka.ms/yaml
 trigger:
 - dev
-pr: 
-     branches:
-      include:
-       - '*'  
+ 
 pool:
   vmImage: ubuntu-latest
 strategy:
