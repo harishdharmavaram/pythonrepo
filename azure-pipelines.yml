@@ -1,49 +1,52 @@
-
-# Starter pipeline
-# Start with a minimal pipeline that you can customize to build and deploy your code.
-# Add steps that build, run tests, deploy, and more:
-# https://aka.ms/yaml
 trigger:
 - dev
+
 pool:
   vmImage: ubuntu-latest
-strategy:
-  matrix:
-    SnowflakePython:
-      python.version: '3.9'
- 
 variables:
-  - group: 'sfkey-group' 
-steps:
-- task: UsePythonVersion@0
-  inputs:
-    versionSpec: '$(python.version)'
-  displayName: 'Use Python $(python.version)'
-- script: |
-    python -m pip install --upgrade pip
-    pip install -r requirements.txt
-  displayName: 'Install dependencies'
-- task: replacetokens@5
-  inputs:
-     targetFiles: 'secret_dev.json'
-     encoding: 'auto'
-     tokenPattern: 'default'
-     writeBOM: true
-     actionOnMissing: 'warn'
-     keepToken: false
-     actionOnNoFiles: 'continue'
-     enableTransforms: false
-     enableRecursion: false
-     useLegacyPattern: false
-     enableTelemetry: true
-    
-- script: pytest test_snowflake_connector.py 
-  displayName: "pytest"
+  - group: 'sfkey-group'
+  - name: PhytonVersion
+    value: '3.9'
+
+stages:
+  - stage: Test
+    jobs:
+      - job: Test
+    variables:
+    - group: 'sfkey-group'
+      steps:
+      - task: UsePythonVersion@0
+        inputs:
+          versionSpec: '$(PhytonVersion)'
+          displayName: 'Use Python $(PhytonVersion)'
+      - script: |
+            python -m pip install --upgrade pip
+            pip install -r requirements.txt
+            displayName: 'Install dependencies'
+      - task: replacetokens@5
+        inputs:
+          targetFiles: 'secret_dev.json'
+          encoding: 'auto'
+          tokenPattern: 'default'
+          writeBOM: true
+          actionOnMissing: 'warn'
+          keepToken: false
+          actionOnNoFiles: 'continue'
+          enableTransforms: false
+          enableRecursion: false
+          useLegacyPattern: false
+          enableTelemetry: true
+      - script: pytest test_snowflake_connector.py 
+        displayName: "pytest"
   
-- script: python app_sp.py
-  
-- task: PublishPipelineArtifact@1
-  inputs:
-    targetPath: '$(System.DefaultWorkingDirectory)'
-    artifact: 'drop'
-    publishLocation: 'pipeline'
+  - stage: Artifact
+    jobs:
+      - job: Artifact
+        dependsOn : Test
+        steps:
+          - task: PublishPipelineArtifact@1
+            inputs:
+              targetPath: '$(System.DefaultWorkingDirectory)'
+              artifact: 'drop'
+              publishLocation: 'pipeline'
+            
