@@ -1,0 +1,33 @@
+resources:
+  repositories:
+  - repository: self
+    type: git
+    ref: refs/heads/Dev
+jobs:
+- job: Job_1
+  displayName: Agent job 1
+  pool:
+    vmImage: ubuntu-latest
+  steps:
+  - checkout: self
+    fetchDepth: 1
+  - task: UsePythonVersion@0
+    displayName: Use Python 3.9
+    inputs:
+      versionSpec: 3.9
+  - task: Bash@3
+    displayName: Install Application Dependencies
+    inputs:
+      targetType: inline
+      script: >
+        python -m pip install --upgrade pip
+
+        pip install -r requirements.txt
+  - task: ArchiveFiles@2
+    displayName: Archive files
+    inputs:
+      rootFolderOrFile: $(System.DefaultWorkingDirectory)
+      includeRootFolder: false
+  - task: PublishBuildArtifacts@1
+    displayName: 'Publish Artifact: drop'
+...
