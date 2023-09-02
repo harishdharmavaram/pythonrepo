@@ -37,8 +37,10 @@ stages:
       - script: pytest test_snowflake_connector.py 
         displayName: "pytest"
 
+  - stage: Artifact
+    dependsOn: Test
+    jobs:
     - job: Artifact
-      dependsOn : Test
       steps:
         - task: PublishPipelineArtifact@1
           inputs:
