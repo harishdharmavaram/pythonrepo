@@ -5,7 +5,6 @@
 # https://aka.ms/yaml
 trigger:
 - dev
- 
 pool:
   vmImage: ubuntu-latest
 strategy:
@@ -14,7 +13,7 @@ strategy:
       python.version: '3.9'
  
 variables:
-  - group: 'sfkey-group' 
+  - group: 'snowflake-variable-group' 
 steps:
 - task: UsePythonVersion@0
   inputs:
@@ -38,11 +37,10 @@ steps:
      useLegacyPattern: false
      enableTelemetry: true
     
-- task: 'test'
-  inputs:
-    script: pytest test_snowflake_connector.py  
- 
-- script: python app_sp.py 
+- script: pytest test_snowflake_connector.py 
+  displayName: "pytest"
+  
+- script: python app_sp.py
   
 - task: PublishPipelineArtifact@1
   inputs:
