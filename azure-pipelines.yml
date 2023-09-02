@@ -40,12 +40,7 @@ steps:
     
 - task: 'test'
   inputs:
-    script: pip install pytest && pytest test_snowflake_connector.py --doctest-modules --junitxml=junit/test-results.xml
-- task: PublishTestResults@2
-  displayName: Publish Test Results **/test-results.xml
-  inputs:
-    testResultsFiles: '**/test-results.xml'
-    testRunTitle: Python $(python.version)
+    script: pytest test_snowflake_connector.py  
  
 - script: python app_sp.py 
   
