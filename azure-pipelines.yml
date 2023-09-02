@@ -11,9 +11,7 @@ variables:
 stages:
   - stage: Test
     jobs:
-      - job: Test
-    variables:
-    - group: 'sfkey-group'
+    - job: Test
       steps:
       - task: UsePythonVersion@0
         inputs:
@@ -38,15 +36,12 @@ stages:
           enableTelemetry: true
       - script: pytest test_snowflake_connector.py 
         displayName: "pytest"
-  
-  - stage: Artifact
-    jobs:
-      - job: Artifact
-        dependsOn : Test
-        steps:
-          - task: PublishPipelineArtifact@1
-            inputs:
-              targetPath: '$(System.DefaultWorkingDirectory)'
-              artifact: 'drop'
-              publishLocation: 'pipeline'
-            
+
+    - job: Artifact
+      dependsOn : Test
+      steps:
+        - task: PublishPipelineArtifact@1
+          inputs:
+            targetPath: '$(System.DefaultWorkingDirectory)'
+            artifact: 'drop'
+            publishLocation: 'pipeline'
