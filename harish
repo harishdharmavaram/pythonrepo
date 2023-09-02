@@ -1,0 +1,38 @@
+trigger:
+- main
+
+pool:
+  vmImage: ubuntu-latest
+stages:
+  - stage: stage1
+    jobs:
+      - job: job1
+        steps:
+          - task: CmdLine@2
+            inputs:
+              script: 'echo Hi Akhil'
+      - job: job2
+        steps:
+          - task: CmdLine@2
+            inputs:
+              script: 'echo Hi Santhosh'
+  - stage: stage2
+    jobs:
+      - job: job3
+        steps:
+
+          - task: CmdLine@2
+            inputs:
+              script: 'echo Hello world'
+          - task: CmdLine@2
+            inputs:
+              script: 'echo Hello'
+      - job: job4
+        steps:
+
+          - task: CmdLine@2
+            inputs:
+              script: 'echo Hello There'
+          - task: CmdLine@2
+            inputs:
+              script: 'echo Hello Boss'
