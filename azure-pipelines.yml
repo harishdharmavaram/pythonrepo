@@ -13,7 +13,7 @@ strategy:
       python.version: '3.9'
  
 variables:
-  - group: 'snowflake-variable-group' 
+  - group: 'sfkey-group' 
 steps:
 - task: UsePythonVersion@0
   inputs:
