@@ -43,20 +43,6 @@ stages:
     jobs:
     - job: SnowfalkeArtifact
       steps:
-      - task: replacetokens@5
-        inputs:
-          targetFiles: 'secret_dev.json'
-          encoding: 'auto'
-          tokenPattern: 'default'
-          writeBOM: true
-          actionOnMissing: 'warn'
-          keepToken: false
-          actionOnNoFiles: 'continue'
-          enableTransforms: false
-          enableRecursion: false
-          useLegacyPattern: false
-          enableTelemetry: true
-
       - task: PublishPipelineArtifact@1
         inputs:
           targetPath: '$(System.DefaultWorkingDirectory)'
