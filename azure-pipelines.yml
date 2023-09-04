@@ -9,9 +9,9 @@ variables:
     value: '3.9'
 
 stages:
-  - stage: Test
+  - stage: Snowfalke-Test
     jobs:
-    - job: Test
+    - job: Snowfalke-Test
       steps:
       - task: UsePythonVersion@0
         inputs:
@@ -37,10 +37,10 @@ stages:
       - script: pytest test_snowflake_connector.py 
         displayName: "pytest"
 
-  - stage: Artifact
-    dependsOn: Test
+  - stage: Snowfalke-Artifact
+    dependsOn: Snowfalke-Test
     jobs:
-    - job: Artifact
+    - job: Snowfalke-Artifact
       steps:
         - task: PublishPipelineArtifact@1
           inputs:
