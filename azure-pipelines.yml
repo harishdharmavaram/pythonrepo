@@ -1,5 +1,3 @@
-#trigger:
-#- dev
 
 pool:
   vmImage: ubuntu-latest
