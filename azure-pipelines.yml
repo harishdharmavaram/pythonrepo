@@ -9,9 +9,9 @@ variables:
     value: '3.9'
 
 stages:
-  - stage: Snowfalke-Test
+  - stage: SnowfalkeTest
     jobs:
-    - job: Snowfalke-Test
+    - job: SnowfalkeTest
       steps:
       - task: UsePythonVersion@0
         inputs:
@@ -34,16 +34,31 @@ stages:
           enableRecursion: false
           useLegacyPattern: false
           enableTelemetry: true
+
       - script: pytest test_snowflake_connector.py 
         displayName: "pytest"
 
-  - stage: Snowfalke-Artifact
-    dependsOn: Snowfalke-Test
+  - stage: SnowfalkeArtifact
+    dependsOn: SnowfalkeTest
     jobs:
-    - job: Snowfalke-Artifact
+    - job: SnowfalkeArtifact
       steps:
-        - task: PublishPipelineArtifact@1
-          inputs:
-            targetPath: '$(System.DefaultWorkingDirectory)'
-            artifact: 'drop'
-            publishLocation: 'pipeline'
+      - task: replacetokens@5
+        inputs:
+          targetFiles: 'secret_dev.json'
+          encoding: 'auto'
+          tokenPattern: 'default'
+          writeBOM: true
+          actionOnMissing: 'warn'
+          keepToken: false
+          actionOnNoFiles: 'continue'
+          enableTransforms: false
+          enableRecursion: false
+          useLegacyPattern: false
+          enableTelemetry: true
+
+      - task: PublishPipelineArtifact@1
+        inputs:
+          targetPath: '$(System.DefaultWorkingDirectory)'
+          artifact: 'drop'
+          publishLocation: 'pipeline'
