@@ -9,7 +9,7 @@ variables:
     value: '3.9'
 
 stages:
-  - stage: SnowfalkeConncetionTest
+  - stage: SnowfalkeTest
     jobs:
     - job: SnowfalkeConncetionTest
       steps:
