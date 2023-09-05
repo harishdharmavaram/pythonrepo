@@ -39,27 +39,6 @@ stages:
         
     - job: SnowfalkeTransformTest
       steps:
-      - task: UsePythonVersion@0
-        inputs:
-          versionSpec: '$(PhytonVersion)'
-          displayName: 'Use Python $(PhytonVersion)'
-      - script: |
-            python -m pip install --upgrade pip
-            pip install -r requirements.txt
-        displayName: 'Install dependencies'
-      - task: replacetokens@5
-        inputs:
-          targetFiles: 'secret_dev.json'
-          encoding: 'auto'
-          tokenPattern: 'default'
-          writeBOM: true
-          actionOnMissing: 'warn'
-          keepToken: false
-          actionOnNoFiles: 'continue'
-          enableTransforms: false
-          enableRecursion: false
-          useLegacyPattern: false
-          enableTelemetry: true
       - script: pytest test_snowpark_transform.py 
         displayName: "pytransormtest"
 
