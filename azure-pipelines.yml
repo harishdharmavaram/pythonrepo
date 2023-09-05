@@ -1,19 +1,18 @@
 pool:
   vmImage: ubuntu-latest
-
 variables:
-  - name: PythonVersion
+  - name: PhytonVersion
     value: '3.9'
 
 stages:
-  - stage: Stage_SnowflakeTest
+  - stage: SnowfalkeTest
     jobs:
-    - job: Snowflake_ConnectionTest
+    - job: SnowfalkeConncetionTest
       steps:
       - task: UsePythonVersion@0
         inputs:
-          versionSpec: '$(PythonVersion)'
-          displayName: 'Use Python $(PythonVersion)'
+          versionSpec: '$(PhytonVersion)'
+          displayName: 'Use Python $(PhytonVersion)'
       - script: |
             python -m pip install --upgrade pip
             pip install -r requirements.txt
@@ -31,17 +30,15 @@ stages:
           enableRecursion: false
           useLegacyPattern: false
           enableTelemetry: true
-
       - script: pytest test_snowflake_connector.py 
-        displayName: "pytest_connection"
-    
-    - job: Snowflake_TransformTest
-      dependsOn: Snowflake_ConnectionTest
+        displayName: "pytransormtest"   
+        
+    - job: SnowfalkeTransformTest
       steps:
       - task: UsePythonVersion@0
         inputs:
-          versionSpec: '$(PythonVersion)'
-          displayName: 'Use Python $(PythonVersion)'
+          versionSpec: '$(PhytonVersion)'
+          displayName: 'Use Python $(PhytonVersion)'
       - script: |
             python -m pip install --upgrade pip
             pip install -r requirements.txt
@@ -60,15 +57,15 @@ stages:
           useLegacyPattern: false
           enableTelemetry: true
       - script: pytest test_snowpark_transform.py 
-        displayName: "pytest_transform"
+        displayName: "pytransormtest"
 
-  - stage: Stage_SnowflakeArtifact
-    dependsOn: Stage_SnowflakeTest
+  - stage: SnowfalkeArtifact
+    dependsOn: SnowfalkeTest
     jobs:
-    - job: Snowflake_Artifact
+    - job: SnowfalkeArtifact
       steps:
       - task: PublishPipelineArtifact@1
         inputs:
           targetPath: '$(System.DefaultWorkingDirectory)'
           artifact: 'drop'
-          publishLocation: 'pipeline'         
+          publishLocation: 'pipeline'
