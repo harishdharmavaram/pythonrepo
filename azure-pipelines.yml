@@ -1,23 +1,19 @@
-
-trigger:
-- dev
-
 pool:
   vmImage: ubuntu-latest
+
 variables:
-  - group: 'sfkey-group'
-  - name: PhytonVersion
+  - name: PythonVersion
     value: '3.9'
 
 stages:
-  - stage: SnowfalkeTest
+  - stage: stage_SnowflakeTest
     jobs:
-    - job: SnowfalkeConncetionTest
+    - job: Snowflake_ConnectionTest
       steps:
       - task: UsePythonVersion@0
         inputs:
-          versionSpec: '$(PhytonVersion)'
-          displayName: 'Use Python $(PhytonVersion)'
+          versionSpec: '$(PythonVersion)'
+          displayName: 'Use Python $(PythonVersion)'
       - script: |
             python -m pip install --upgrade pip
             pip install -r requirements.txt
@@ -35,15 +31,17 @@ stages:
           enableRecursion: false
           useLegacyPattern: false
           enableTelemetry: true
+
       - script: pytest test_snowflake_connector.py 
-        displayName: "pytransormtest"   
-        
-    - job: SnowfalkeTransformTest
+        displayName: "pytest_connection"
+    
+    - job: Snowflake_TransformTest
+      dependsOn: Snowflake_ConnectionTest
       steps:
       - task: UsePythonVersion@0
         inputs:
-          versionSpec: '$(PhytonVersion)'
-          displayName: 'Use Python $(PhytonVersion)'
+          versionSpec: '$(PythonVersion)'
+          displayName: 'Use Python $(PythonVersion)'
       - script: |
             python -m pip install --upgrade pip
             pip install -r requirements.txt
@@ -62,15 +60,15 @@ stages:
           useLegacyPattern: false
           enableTelemetry: true
       - script: pytest test_snowpark_transform.py 
-        displayName: "pytransormtest"
+        displayName: "pytest_transform"
 
-  - stage: SnowfalkeArtifact
-    dependsOn: SnowfalkeTest
+  - stage: SnowflakeArtifactstage
+    dependsOn: stage_SnowflakeTest
     jobs:
-    - job: SnowfalkeArtifact
+    - job: Snowflake_Artifact
       steps:
       - task: PublishPipelineArtifact@1
         inputs:
           targetPath: '$(System.DefaultWorkingDirectory)'
           artifact: 'drop'
-          publishLocation: 'pipeline'
+          publishLocation: 'pipeline'         
