@@ -1,15 +1,17 @@
+trigger:
+- dev
 
 pool:
   vmImage: ubuntu-latest
 variables:
-  #- group: 'sfkey-group'
+  - group: 'sfkey-group'
   - name: PhytonVersion
     value: '3.9'
 
 stages:
   - stage: SnowfalkeTest
     jobs:
-    - job: SnowfalkeTest
+    - job: SnowfalkeConncetionTest
       steps:
       - task: UsePythonVersion@0
         inputs:
@@ -32,9 +34,13 @@ stages:
           enableRecursion: false
           useLegacyPattern: false
           enableTelemetry: true
-
       - script: pytest test_snowflake_connector.py 
-        displayName: "pytest"
+        displayName: "pytransormtest"   
+        
+    - job: SnowfalkeTransformTest
+      steps:
+      - script: pytest test_snowpark_transform.py 
+        displayName: "pytransormtest"
 
   - stage: SnowfalkeArtifact
     dependsOn: SnowfalkeTest
