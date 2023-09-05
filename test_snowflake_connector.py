@@ -5,7 +5,7 @@ import json
 
 class SnowflakeConnection(unittest.TestCase):
     # Set up the Snowflake connection here, return the connection object
-    with open("secret_local.json") as secrets_file:
+    with open("secret.json") as secrets_file:
         secrets = json.load(secrets_file)
 
     user = secrets["snowflake"]["snowflake_user"]
