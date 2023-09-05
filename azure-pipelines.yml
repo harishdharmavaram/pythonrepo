@@ -1,11 +1,6 @@
-
-trigger:
-- dev
-
 pool:
   vmImage: ubuntu-latest
 variables:
-  - group: 'sfkey-group'
   - name: PhytonVersion
     value: '3.9'
 
