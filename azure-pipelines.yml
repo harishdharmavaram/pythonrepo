@@ -24,7 +24,7 @@ stages:
         displayName: 'Install dependencies'
       - task: replacetokens@5
         inputs:
-          targetFiles: 'secret_dev.json'
+          targetFiles: 'secret.json'
           encoding: 'auto'
           tokenPattern: 'default'
           writeBOM: true
@@ -50,7 +50,7 @@ stages:
         displayName: 'Install dependencies'
       - task: replacetokens@5
         inputs:
-          targetFiles: 'secret_dev.json'
+          targetFiles: 'secret.json'
           encoding: 'auto'
           tokenPattern: 'default'
           writeBOM: true
