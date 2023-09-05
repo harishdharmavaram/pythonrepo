@@ -6,7 +6,7 @@ variables:
     value: '3.9'
 
 stages:
-  - stage: stage_SnowflakeTest
+  - stage: Stage_SnowflakeTest
     jobs:
     - job: Snowflake_ConnectionTest
       steps:
@@ -62,8 +62,8 @@ stages:
       - script: pytest test_snowpark_transform.py 
         displayName: "pytest_transform"
 
-  - stage: SnowflakeArtifactstage
-    dependsOn: stage_SnowflakeTest
+  - stage: Stage_SnowflakeArtifact
+    dependsOn: Stage_SnowflakeTest
     jobs:
     - job: Snowflake_Artifact
       steps:
