@@ -58,14 +58,3 @@ stages:
           enableTelemetry: true
       - script: pytest test_snowpark_transform.py 
         displayName: "pytransormtest"
-
-  - stage: SnowfalkeArtifact
-    dependsOn: SnowfalkeTest
-    jobs:
-    - job: SnowfalkeArtifact
-      steps:
-      - task: PublishPipelineArtifact@1
-        inputs:
-          targetPath: '$(System.DefaultWorkingDirectory)'
-          artifact: 'drop'
-          publishLocation: 'pipeline'
