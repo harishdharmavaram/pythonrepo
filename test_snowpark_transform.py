@@ -5,7 +5,7 @@ from snowflake_connector import SnowflakeConnector
 from snowflake.snowpark import Session
 from snowflake.snowpark.functions import col, avg, asc, desc
 
-with open("secret_local.json") as secrets_file:
+with open("secret_dev.json") as secrets_file:
     secrets = json.load(secrets_file)
 
 user = secrets["snowflake"]["snowflake_user"]
