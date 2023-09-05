@@ -3,7 +3,7 @@ from snowflake.snowpark import Session
 
 
 def connect():
-    with open("secret_dev.json") as secrets_file:
+    with open("secret.json") as secrets_file:
         secrets = json.load(secrets_file)
 
     snowflake_username = secrets["snowflake"]["snowflake_user"]
