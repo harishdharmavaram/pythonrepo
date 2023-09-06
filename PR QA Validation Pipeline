@@ -1,0 +1,61 @@
+pool:
+  vmImage: ubuntu-latest
+variables:
+  - name: PythonVersion
+    value: '3.9'
+
+stages:
+  - stage: SnowflakeTest
+    jobs:
+    - job: SnowflakeConnectionTest
+      steps:
+      - task: UsePythonVersion@0
+        inputs:
+          versionSpec: '$(PythonVersion)'
+          displayName: 'Use Python $(PythonVersion)'
+      - script: |
+            python -m pip install --upgrade pip
+            pip install -r requirements.txt
+        displayName: 'Install dependencies'
+      - task: replacetokens@5
+        inputs:
+          targetFiles: 'secret.json'
+          encoding: 'auto'
+          tokenPattern: 'default'
+          writeBOM: true
+          actionOnMissing: 'warn'
+          keepToken: false
+          actionOnNoFiles: 'continue'
+          enableTransforms: false
+          enableRecursion: false
+          useLegacyPattern: false
+          enableTelemetry: true
+      - script: pytest test_snowflake_connector.py 
+        displayName: "Snowflake_ConnectionTest"   
+        
+    - job: SnowflakeTransformTest
+      dependsOn: SnowflakeConnectionTest
+      steps:
+      - task: UsePythonVersion@0
+        inputs:
+          versionSpec: '$(PythonVersion)'
+          displayName: 'Use Python $(PythonVersion)'
+      - script: |
+            python -m pip install --upgrade pip
+            pip install -r requirements.txt
+        displayName: 'Install dependencies'
+      - task: replacetokens@5
+        inputs:
+          targetFiles: 'secret.json'
+          encoding: 'auto'
+          tokenPattern: 'default'
+          writeBOM: true
+          actionOnMissing: 'warn'
+          keepToken: false
+          actionOnNoFiles: 'continue'
+          enableTransforms: false
+          enableRecursion: false
+          useLegacyPattern: false
+          enableTelemetry: true
+      - script: pytest test_snowpark_transform.py 
+        displayName: "Snowflake_TransformTest"
