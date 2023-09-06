@@ -1,18 +1,18 @@
 pool:
   vmImage: ubuntu-latest
 variables:
-  - name: PhytonVersion
+  - name: PythonVersion
     value: '3.9'
 
 stages:
-  - stage: SnowfalkeTest
+  - stage: SnowflakeTest
     jobs:
-    - job: SnowfalkeConncetionTest
+    - job: SnowflakeConnectionTest
       steps:
       - task: UsePythonVersion@0
         inputs:
-          versionSpec: '$(PhytonVersion)'
-          displayName: 'Use Python $(PhytonVersion)'
+          versionSpec: '$(PythonVersion)'
+          displayName: 'Use Python $(PythonVersion)'
       - script: |
             python -m pip install --upgrade pip
             pip install -r requirements.txt
@@ -31,14 +31,15 @@ stages:
           useLegacyPattern: false
           enableTelemetry: true
       - script: pytest test_snowflake_connector.py 
-        displayName: "pytransormtest"   
+        displayName: "Snowflake_ConnectionTest"   
         
-    - job: SnowfalkeTransformTest
+    - job: SnowflakeTransformTest
+      dependsOn: SnowflakeConnectionTest
       steps:
       - task: UsePythonVersion@0
         inputs:
-          versionSpec: '$(PhytonVersion)'
-          displayName: 'Use Python $(PhytonVersion)'
+          versionSpec: '$(PythonVersion)'
+          displayName: 'Use Python $(PythonVersion)'
       - script: |
             python -m pip install --upgrade pip
             pip install -r requirements.txt
@@ -57,4 +58,4 @@ stages:
           useLegacyPattern: false
           enableTelemetry: true
       - script: pytest test_snowpark_transform.py 
-        displayName: "pytransormtest"
+        displayName: "Snowflake_TransformTest"
