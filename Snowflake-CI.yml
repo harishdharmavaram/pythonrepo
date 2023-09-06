@@ -1,0 +1,15 @@
+trigger:
+- dev
+
+pool:
+  vmImage: ubuntu-latest
+stages:
+- stage: SnowfalkeArtifact
+  jobs:
+  - job: SnowfalkeArtifact
+    steps:
+    - task: PublishPipelineArtifact@1
+      inputs:
+        targetPath: '$(System.DefaultWorkingDirectory)'
+        artifact: 'drop'
+        publishLocation: 'pipeline'
