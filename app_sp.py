@@ -1,7 +1,7 @@
 from snowflake.snowpark import Session
 from snowflake.snowpark.types import IntegerType, StringType, StructType
 import pandas as pd
-from session_dev import connect
+from session import connect
 
 snowpark_session = connect()
 snowpark_session.add_packages('snowflake-snowpark-python')
